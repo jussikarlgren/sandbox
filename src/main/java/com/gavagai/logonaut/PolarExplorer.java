@@ -310,7 +310,7 @@ public class PolarExplorer {
 			for (SparseVector v2 : vectors) {
 				double l = 0d;
 				if (! seen.contains(v2.getToken())) {
-					l = VectorMath.distance(v1.canonicalVector(),
+					l = VectorMath.cosineSimilarity(v1.canonicalVector(),
 							v2.canonicalVector());
 					distances.put(l, v1.getToken() + "<->" + v2.getToken());
 					averageDistanceFromEachOther += l;
@@ -322,8 +322,8 @@ public class PolarExplorer {
 			averageDistanceFromEachOther = averageDistanceFromEachOther
 					/ m;
 		}
-		response = response + "n: " + n + "\n";
-		response = response + "tave: " + averageDistanceFromEachOther + "\n";
+//		response = response + "n: " + n + "\n";
+//		response = response + "tave: " + averageDistanceFromEachOther + "\n";
 		for (Double s:distances.keySet()) {
 			response += Math.round(s*100f)/100f+"\t"+distances.get(s)+"\n";
 		}
@@ -1434,7 +1434,8 @@ public class PolarExplorer {
 				"överskattad", "överskattade", "överskattades", "överskattas",
 				"överskattat", "överskattats" };
 		String[] samma = { "häst", "hund", "hunden", "hästen" };
-		for (String w : mat) {
+		String[] foods = { "chestnut", "chestnuts", "chestnut's", "chestnuts'" };
+		for (String w : foods) {
 			words.add(w);
 		}
 		GetVectorsForWord g = new GetVectorsForWord(esProperties);

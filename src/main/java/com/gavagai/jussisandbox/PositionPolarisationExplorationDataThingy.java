@@ -54,7 +54,7 @@ public class PositionPolarisationExplorationDataThingy {
 	int NEGATIONPOLE = 107;
 	int AMPLIFIERPOLE = 999;
 	String testIdentifier;
-	static String PREFIX = "/home/jussi/Desktop/";
+	static String PREFIX = "/home/jussi/Desktop/but";
 	Hashtable<TextWithSentiment,Hashtable<Pole,int[]>> results;
 	int sections;
 
@@ -317,7 +317,7 @@ public class PositionPolarisationExplorationDataThingy {
 			thisthispos = false;
 			thisthisneg = false;
 			thisposres = null;
-			thisnegres = null;					
+			thisnegres = null;
 			for (Pole p: results.get(o).keySet()) {
 				if (p.getId() == POSITIVEPOLE) {
 					thisposres = results.get(o).get(p);
@@ -337,8 +337,8 @@ public class PositionPolarisationExplorationDataThingy {
 					nearwords.increment(ss);
 					nearwordsAntal++;
 				}
-				if (thisposres[i] > 0) thisthispos = true;
-				else if (thisnegres[i] > 0) thisthisneg = true;
+				if (i < thisposres.length && thisposres[i] > 0) thisthispos = true;
+				else if (i < thisposres.length && thisnegres[i] > 0) thisthisneg = true;
 				else if (thispos && thisneg) {
 					if (thisthispos && ! thisthisneg) {midwordsBu.increment(ss); midwordsAntalBu++;}
 					if (thisthisneg && ! thisthispos) {midwordsUp.increment(ss); midwordsAntalUp++;}
@@ -671,7 +671,8 @@ public class PositionPolarisationExplorationDataThingy {
 		PositionPolarisationExplorationDataThingy ppedt = new PositionPolarisationExplorationDataThingy();
 		//		boolean debug = false;
 		//		boolean accu = false;
-		Writer out = new BufferedWriter(new FileWriter(new File(ppedt.PREFIX+"unsophisticatedpolarisation.outfile")));
+		String experimentidentifiertag = "2017.02";
+		Writer out = new BufferedWriter(new FileWriter(new File(ppedt.PREFIX+"/"+experimentidentifiertag+"."+"butpolarisation.outfile")));
 		String[] lexica = {"bingliu"}; //{"mini","bingliu","gavagai"}; 
 		String[] tests = {"oscar","replab","stanford"};
 //		String[] tests = {"mini"};
@@ -683,6 +684,9 @@ public class PositionPolarisationExplorationDataThingy {
 				ppedt.setLexicon(lexicon);
 				ppedt.runTest(testIdentifier,10000);
 				out.write(ppedt.demonstrateUnSophisticated());
+				out.flush();
+				out.write("-----------------------------\n");
+				out.write(ppedt.demonstrate());
 				out.write("\n");
 				out.flush();
 				ppedt = new PositionPolarisationExplorationDataThingy();
